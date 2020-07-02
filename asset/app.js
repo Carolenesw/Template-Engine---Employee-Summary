@@ -12,29 +12,26 @@ const render = require("./lib/htmlRenderer");
 const Choice = require("inquirer/lib/objects/choice");
 const Choices = require("inquirer/lib/objects/choices");
 
-// create prompt questions for employees
-
-function teamPromptInfo (){
-
+// create prompt function to capture employees information
+function teamPromptInfo(){
     return inquirer
       .prompt([
         {
             name: "name", 
             message: "Please enter Employee's name: ",
-            type: "input",
-           
+            type: "input"
         },
     
         {   
             name: "id",
             message: "Please enter Employee's id: ",
-            type: "input",
+            type: "input"
         },
 
         {
             name: "email",
             message: "Please enter Employee's email: ",
-            type: "input",
+            type: "input"
         },
         {
             message: "Enter the Employee's job title/role: ",
@@ -47,26 +44,49 @@ function teamPromptInfo (){
         },
         {
             message: "Please enter Manager's office number: ",
-            name: "office",
+            name: "office"
 
         },
         {
             message: "Please enter Intern's school: ",
-            name: "school",
+            name: "school"
 
         },
 
         {
             name: "github",
             message: "Please Enter Engineer's github username: ",
-            type: "input",
+            type: "input"
         },
 
         { 
             name: "Addtional",
             message: "Would you like to add another team member?",
         }
-    ]);
+      ])
+
+      .then(answers => {
+        //   create variable to hold response
+        let name = answers.name;
+        let id = answers.id;
+        let title = answers.title;
+        let email = answers.email
+
+        if (answers) {
+                
+            console.log("Success!", answers);
+            // console.log(answers)
+        }
+
+      })
+      .catch((error) => {
+
+        console.log(error);
+
+    })
+
+     
+// })
 }
 
 teamPromptInfo ()
