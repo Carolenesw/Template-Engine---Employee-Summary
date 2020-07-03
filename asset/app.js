@@ -46,15 +46,16 @@ function teamPromptInfo(){
             type: "input", 
             validate: (input) => {
                 if (input === "") {
-                    return "Please enter a vaild 'EMAIL'!"
+                    return "Employee's 'EMAIL' is required!"
                 }
                 return true;
             }
         },
         {
             message: "Enter the Employee's job title/role: ",
-            name: "role",
-            Choices: [
+            name: "title",
+            type: "list",
+            choices: [
                 "Manager",
                 "Engineer",
                 "Intern"
@@ -80,6 +81,11 @@ function teamPromptInfo(){
         { 
             name: "Addtional",
             message: "Would you like to add another team member?",
+            type: "list",
+            choices: [
+                "Yes",
+                "No"
+            ]
         }
       ])
 
