@@ -19,19 +19,37 @@ function teamPromptInfo(){
         {
             name: "name", 
             message: "Please enter Employee's name: ",
-            type: "input"
+            type: "input", 
+            validate: (input) => {
+                if (input === "") {
+                    return "Employee's 'NAME' is required!"
+                }
+                return true;
+            }
         },
     
         {   
             name: "id",
             message: "Please enter Employee's id: ",
-            type: "input"
+            type: "input",
+            validate: (input) => {
+                if (input === "") {
+                    return "Employee's 'ID' is required!"
+                }
+                return true;
+            }
         },
 
         {
             name: "email",
             message: "Please enter Employee's email: ",
-            type: "input"
+            type: "input", 
+            validate: (input) => {
+                if (input === "") {
+                    return "Please enter a vaild 'EMAIL'!"
+                }
+                return true;
+            }
         },
         {
             message: "Enter the Employee's job title/role: ",
