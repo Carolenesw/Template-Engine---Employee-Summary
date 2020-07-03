@@ -12,6 +12,12 @@ const render = require("./lib/htmlRenderer");
 const Choice = require("inquirer/lib/objects/choice");
 const Choices = require("inquirer/lib/objects/choices");
 
+// email validation function 
+const email = async (input) => {
+    var emailFormat = /\S+@\S+\.\S+/;
+    return emailFormat.test(input)||"Enter a valid @.com";
+}
+
 // create prompt function to capture employees information
 function teamPromptInfo(){
     return inquirer
@@ -44,12 +50,7 @@ function teamPromptInfo(){
             name: "email",
             message: "Please enter Employee's email: ",
             type: "input", 
-            validate: (input) => {
-                if (input === "") {
-                    return "Employee's 'EMAIL' is required!"
-                }
-                return true;
-            }
+            validate: email
         },
         {
             message: "Enter the Employee's job title/role: ",
