@@ -67,13 +67,15 @@ function teamPromptInfo(){
         {
             message: "Please enter Manager's office number: ",
             name: "officeNum",
-            type: "number",
+            type: "input",
              // validate answer
-             validate: (input) => {
-                if (input === 000) {
-                    return "Numbers are required!"
+             validate: answer => {
+                 //console.log("number vali:", input);
+                 const isNumber = answer.match(/^[1-9]\d*$/);
+                if (isNumber) {
+                   return true; 
                 }
-                return true;
+                return "Numbers are required!";
             }
         },
         {
