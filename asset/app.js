@@ -7,7 +7,7 @@ const fs = require("fs");
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
-
+// var team = [];
 const render = require("./lib/htmlRenderer");
 const Choice = require("inquirer/lib/objects/choice");
 const Choices = require("inquirer/lib/objects/choices");
@@ -21,7 +21,7 @@ const email = async (input) => {
 
 // create prompt function to capture employees information
 function teamPromptInfo(){
-    return inquirer
+         inquirer
       .prompt([
         {
             name: "name", 
@@ -88,12 +88,13 @@ function teamPromptInfo(){
             type: "input"
         },
         { 
-            name: "Addtional",
+            name: "AddNewEmployee",
             message: "Would you like to add another team member?",
             type: "list",
             choices: [
-                "Yes",
-                "No"
+                "Engineer",
+                "Intern",
+                "I don't want to add any more team members"
             ]
         }
       ])
@@ -141,30 +142,3 @@ async function employeeIntro() {
     }
 
 employeeIntro()
-
-// function generateTeamProfile (answer) {
-//    var teamResponse = answer.title
-//         switch(teamResponse){
-//             case "Manager":
-//                 Manager;
-//                 break;
-//         }
-//         switch(teamResponse){
-//             case "Engineer":
-//                 Engineer;
-//                 break;
-//         }
-//         switch(teamResponse){
-//             case "Intern":
-//                 Intern;
-//                 break;
-//         }
-//         switch(teamResponse){
-//             case "Employee":
-//                 Employee;
-//                 break;
-//         }
-   
-// }
-// generateTeamProfile (answer)
-// teamPromptInfo ()
