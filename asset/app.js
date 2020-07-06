@@ -26,6 +26,7 @@ function teamPromptInfo(){
             name: "name", 
             message: "Please enter Employee's name: ",
             type: "input", 
+            // validate answer
             validate: (input) => {
                 if (input === "") {
                     return "Employee's 'NAME' is required!"
@@ -38,6 +39,7 @@ function teamPromptInfo(){
             name: "id",
             message: "Please enter Employee's id: ",
             type: "input",
+            // validate answer
             validate: (input) => {
                 if (input === "") {
                     return "Employee's 'ID' is required!"
@@ -50,6 +52,7 @@ function teamPromptInfo(){
             name: "email",
             message: "Please enter Employee's email: ",
             type: "input", 
+            // validate answer
             validate: email
         },
         {
@@ -64,13 +67,19 @@ function teamPromptInfo(){
         },
         {
             message: "Please enter Manager's office number: ",
-            name: "office"
-
+            name: "officeNum",
+            type: "number",
+             // validate answer
+             validate: (input) => {
+                if (input === 000) {
+                    return "Numbers are required!"
+                }
+                return true;
+            }
         },
         {
             message: "Please enter Intern's school: ",
             name: "school"
-
         },
 
         {
@@ -104,6 +113,8 @@ function teamPromptInfo(){
         }
 
       })
+
+
       .catch((error) => {
 
         console.log(error);
@@ -114,4 +125,88 @@ function teamPromptInfo(){
 // })
 }
 
+// create questions to start team profile generator
+async function employeeIntro() {
+        await inquirer.prompt({
+            message: "Would you like to generate Employee Summary?",
+            choices: [
+                "yes",
+                "no"
+            ]
+        })
+    }
+// function init () {
+//     inquirer
+//     .prompt(employeeQuestions)
+//     .then((teamPromptInfo) => {
+//         var role = inquirerResponse.role;
+//         switch(role){
+//             case "Manager":
+//                 addManager();
+//                 break;
+//         }
+//         switch(role){
+//             case "Engineer":
+//                 addEngineer();
+//                 break;
+//         }
+//         switch(role){
+//             case "Intern":
+//                 addIntern();
+//                 break;
+//         }
+//         switch(role){
+//             case "Employee":
+//                 addEmployee();
+//                 break;
+//         }
+//         //console.log("Making HTML");
+//         //console.log(inquirerResponse);
+//     })
+//     .catch((err) => {
+//         console.log(err);
+//     })
+// }
+// init();
+
+// async function init() {
+//     await inquirer.prompt({
+//         message: "Would you like to generate Employee Summary?",
+//         choices: [
+//             "yes",
+//             "no"
+//         ]
+//     })
+// if(data.choices === "yes") {
+//     try {
+//         const res = await teamPromptInfo();
+//     }
+//     catch (error) {
+//         console.log(error);
+//     };
+// }
+//     else if (data.choices === "no") {
+// console.log("No report to generate!")
+//     }
+// };
+
+// init();
+
+// async function generateTeamInfo (teamPromptInfo) {
+
+//     await inquirer.prompt({
+//         message: "Would you like to generate Employee Summary?",
+//         choices: [
+//             "yes",
+//             "no"
+//         ]
+//     })
+//     .then(res => {
+
+//         var res = "yes";
+//         fs.copyFileSync('./templates/main.html', './output.html');
+//         console.log("Time to generate you Team's Summary")
+//     })
+
+// }
 teamPromptInfo ()
