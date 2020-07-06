@@ -11,6 +11,7 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 const Choice = require("inquirer/lib/objects/choice");
 const Choices = require("inquirer/lib/objects/choices");
+const Employee = require("./lib/Employee");
 
 // email validation function 
 const email = async (input) => {
@@ -34,7 +35,6 @@ function teamPromptInfo(){
                 return true;
             }
         },
-    
         {   
             name: "id",
             message: "Please enter Employee's id: ",
@@ -47,7 +47,6 @@ function teamPromptInfo(){
                 return true;
             }
         },
-
         {
             name: "email",
             message: "Please enter Employee's email: ",
@@ -81,13 +80,11 @@ function teamPromptInfo(){
             message: "Please enter Intern's school: ",
             name: "school"
         },
-
         {
             name: "github",
             message: "Please Enter Engineer's github username: ",
             type: "input"
         },
-
         { 
             name: "Addtional",
             message: "Would you like to add another team member?",
@@ -98,7 +95,6 @@ function teamPromptInfo(){
             ]
         }
       ])
-
       .then(answers => {
         //   create variable to hold response
         let name = answers.name;
@@ -107,106 +103,66 @@ function teamPromptInfo(){
         let email = answers.email
 
         if (answers) {
-                
             console.log("Success!", answers);
-            // console.log(answers)
         }
 
       })
-
-
       .catch((error) => {
 
         console.log(error);
-
     })
-
-     
-// })
 }
 
 // create questions to start team profile generator
 async function employeeIntro() {
+    
         await inquirer.prompt({
             message: "Would you like to generate Employee Summary?",
+            name: "option",
             choices: [
                 "yes",
                 "no"
             ]
         })
+        .then(choice => {
+            console.log("answer:", choice)
+            if(choice.option === "yes") {
+                teamPromptInfo()
+                // return;
+            } else {
+               console.log("Their is no Team's Profile to generate");
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        })
     }
-// function init () {
-//     inquirer
-//     .prompt(employeeQuestions)
-//     .then((teamPromptInfo) => {
-//         var role = inquirerResponse.role;
-//         switch(role){
+
+employeeIntro()
+
+// function generateTeamProfile (answer) {
+//    var teamResponse = answer.title
+//         switch(teamResponse){
 //             case "Manager":
-//                 addManager();
+//                 Manager;
 //                 break;
 //         }
-//         switch(role){
+//         switch(teamResponse){
 //             case "Engineer":
-//                 addEngineer();
+//                 Engineer;
 //                 break;
 //         }
-//         switch(role){
+//         switch(teamResponse){
 //             case "Intern":
-//                 addIntern();
+//                 Intern;
 //                 break;
 //         }
-//         switch(role){
+//         switch(teamResponse){
 //             case "Employee":
-//                 addEmployee();
+//                 Employee;
 //                 break;
 //         }
-//         //console.log("Making HTML");
-//         //console.log(inquirerResponse);
-//     })
-//     .catch((err) => {
-//         console.log(err);
-//     })
+   
 // }
-// init();
-
-// async function init() {
-//     await inquirer.prompt({
-//         message: "Would you like to generate Employee Summary?",
-//         choices: [
-//             "yes",
-//             "no"
-//         ]
-//     })
-// if(data.choices === "yes") {
-//     try {
-//         const res = await teamPromptInfo();
-//     }
-//     catch (error) {
-//         console.log(error);
-//     };
-// }
-//     else if (data.choices === "no") {
-// console.log("No report to generate!")
-//     }
-// };
-
-// init();
-
-// async function generateTeamInfo (teamPromptInfo) {
-
-//     await inquirer.prompt({
-//         message: "Would you like to generate Employee Summary?",
-//         choices: [
-//             "yes",
-//             "no"
-//         ]
-//     })
-//     .then(res => {
-
-//         var res = "yes";
-//         fs.copyFileSync('./templates/main.html', './output.html');
-//         console.log("Time to generate you Team's Summary")
-//     })
-
-// }
-teamPromptInfo ()
+// generateTeamProfile (answer)
+// teamPromptInfo ()
