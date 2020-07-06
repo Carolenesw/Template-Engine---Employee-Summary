@@ -117,7 +117,7 @@ function teamPromptInfo(){
 }
 
 // create questions to start team profile generator
-async function employeeIntro() {
+async function init() {
     
         await inquirer.prompt({
             message: "Would you like to generate Employee Summary?",
@@ -141,4 +141,4 @@ async function employeeIntro() {
         })
     }
 
-employeeIntro()
+init()
