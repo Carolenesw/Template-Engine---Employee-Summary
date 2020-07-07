@@ -69,17 +69,17 @@ async function employerRole() {
        type: "input", 
        // validate answer
        validate: email
-   },
-   {
-       name: "AddNewEmployee",
-       message: "Would you like to add another team member?",
-       type: "list",
-       choices: [
-           "Engineer",
-           "Intern",
-           "I don't want to add any more team members"
-       ]
    }
+//    {
+//        name: "AddNewEmployee",
+//        message: "Would you like to add another team member?",
+//        type: "list",
+//        choices: [
+//            "Engineer",
+//            "Intern",
+//            "I don't want to add any more team members"
+//        ]
+//    }
 ]) 
    
 .then((res) => {
@@ -104,11 +104,34 @@ switch(title) {
                     }
                     return "Numbers are required!";
         }
-        }])
+        }, 
+        {
+            name: "AddNewEmployee",
+            message: "Would you like to add another team member?",
+            type: "list",
+            choices: [
+                "yes",
+                "no"
+            ]
+        }
+    ])
+    
         .then((res) => {
             const manager = new Manager(empName, empId, empEmail, res.officeNum);
             teamMember = fs.readFileSync("templates/manager.html");
             teamOutput.push(manager)
+            console.log(teamOutput)
+
+            if(res.choice === "yes") {
+                employerRole()
+                
+            } else  {
+               console.log("No more profile to generate!");
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+     
         });
         break;
 
@@ -117,13 +140,33 @@ switch(title) {
             name: "github",
             message: "Please Enter Engineer's github username: ",
             type: "input"
-             }
+             },
+             {
+                name: "AddNewEmployee",
+                message: "Would you like to add another team member?",
+                type: "list",
+                choices: [
+                    "yes",
+                    "no"
+                ]
+            }
         ])
         .then((res) => {
             const engineer = new Engineer(name, id, email, res.github);
             teamMember = fs.readFileSync("templates/engineer.html");
             teamOutput.push(engineer)
+            if(res.choice === "yes") {
+                employerRole()
+                
+            } else  {
+               console.log("No more profile to generate!");
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+     
         });
+        
         break;
 
         case "Intern":
@@ -131,12 +174,31 @@ switch(title) {
                 name: "school",
                 message: "Please Enter the your school name: ",
                 type: "input"
-                 }
+                }, 
+                {
+                name: "AddNewEmployee",
+                message: "Would you like to add another team member?",
+                type: "list",
+                choices: [
+                    "yes",
+                    "no"
+                    ]
+                }
             ])
             .then((res) => {
                 const intern = new Intern(name, id, email, res.school);
                 teamMember = fs.readFileSync("templates/intern.html");
                 teamOutput.push(intern)
+                if(res.choice === "yes") {
+                    employerRole()
+                    
+                } else  {
+                   console.log("No more profile to generate!");
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+         
             });
             break;
             
