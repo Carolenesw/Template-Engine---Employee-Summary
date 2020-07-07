@@ -1,5 +1,8 @@
 const path = require("path");
 const fs = require("fs");
+const Manager = require("./Manager");
+const Engineer = require("./Engineer");
+const Intern = require("./Intern");
 
 const templatesDir = path.resolve(__dirname, "../templates");
 
