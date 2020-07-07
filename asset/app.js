@@ -114,6 +114,76 @@ function getManager(){
         console.log(error);
     })
 }
+
+// create function to capture engineer info
+function getEngineer(){
+    inquirer
+ .prompt([
+   {
+       name: "name", 
+       message: "Please enter Employee's name: ",
+       type: "input", 
+       // validate answer
+       validate: (input) => {
+           if (input === "") {
+               return "Employee's 'NAME' is required!"
+           }
+           return true;
+       }
+   },
+   {   
+       name: "id",
+       message: "Please enter Employee's id: ",
+       type: "input",
+       // validate answer
+       validate: (input) => {
+           if (input === "") {
+               return "Employee's 'ID' is required!"
+           }
+           return true;
+       }
+   },
+   {
+       name: "email",
+       message: "Please enter Employee's email: ",
+       type: "input", 
+       // validate answer
+       validate: email
+   },
+     {
+         message: "Please enter your office number: ",
+         name: "officeNum",
+         type: "input",
+       //   validate answer
+         validate: answer => {
+             const isNumber = answer.match(/^[1-9]\d*$/);
+               if (isNumber) {
+                  return true; 
+               }
+               return "Numbers are required!";
+           }
+       },
+   {
+       name: "github",
+       message: "Please Enter Engineer's github username: ",
+       type: "input"
+   },
+   {
+       name: "AddNewEmployee",
+       message: "Would you like to add another team member?",
+       type: "list",
+       choices: [
+           "Engineer",
+           "Intern",
+           "I don't want to add any more team members"
+       ]
+   }]) 
+   .catch((error) => {
+
+   console.log(error);
+})
+}
+
     //   ])
     // }
 //       .then(answers => {
