@@ -80,7 +80,7 @@ let email;
     email = res.email
 });
 console.log("Employee:", role)
-// create switch statement to gather employee's info based on title
+// create switch statement to gather employee's info based on title/role
 switch(role) {
     case "Manager":
         await inquirer.prompt([{
@@ -110,7 +110,9 @@ switch(role) {
             const manager = new Manager(name, id, email, res.officeNumber);
             teamMember = fs.readFileSync("templates/manager.html");
             teamOutput.push(manager)
-            console.log(teamOutput)
+            console.log("manager cont: ", manager)
+            // teamOutput = fs.readFileSync("templates/manager.html");
+            console.log("Successful, Team data:", teamOutput)
 
             if(res.AddNewEmployee === "yes") {
                 employerRole()
@@ -145,6 +147,8 @@ switch(role) {
             const engineer = new Engineer(name, id, email, res.github);
             teamMember = fs.readFileSync("templates/engineer.html");
             teamOutput.push(engineer)
+            console.log("Successful, Team data:", teamOutput)
+
             if(res.AddNewEmployee === "yes") {
                 employerRole()
                 
@@ -179,6 +183,8 @@ switch(role) {
                 const intern = new Intern(name, id, email, res.school);
                 teamMember = fs.readFileSync("templates/intern.html");
                 teamOutput.push(intern)
+                console.log("Successful, Team data:", teamOutput)
+
                 if(res.AddNewEmployee === "yes") {
                     employerRole()
                     
@@ -191,10 +197,19 @@ switch(role) {
          
             });
             break;
-            
 }
 
 } 
+
+// create team.html file in the output folder from employee data 
+teamOutput = fs.readFileSync("templates/main.html");
+fs.writeFile("output/team.html", teamOutput, function (err) {
+    if(err) {
+        return console.log(err);
+    }
+    console.log("You have successfully generated your Team's profile!")
+})
+
 // create initialized function to start team profile generator
 async function init() {
     
