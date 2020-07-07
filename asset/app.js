@@ -69,18 +69,7 @@ async function employerRole() {
        type: "input", 
        // validate answer
        validate: email
-   }
-//    {
-//        name: "AddNewEmployee",
-//        message: "Would you like to add another team member?",
-//        type: "list",
-//        choices: [
-//            "Engineer",
-//            "Intern",
-//            "I don't want to add any more team members"
-//        ]
-//    }
-]) 
+   }]) 
    
 .then((res) => {
     empName = res.name;
@@ -88,7 +77,7 @@ async function employerRole() {
     title = res.title;
     empEmail = res.email
 });
-console.log(title)
+console.log("Employee:", title)
 // create switch statement to gather employee's info based on title
 switch(title) {
     case "Manager":
@@ -113,8 +102,7 @@ switch(title) {
                 "yes",
                 "no"
             ]
-        }
-    ])
+        }])
     
         .then((res) => {
             const manager = new Manager(empName, empId, empEmail, res.officeNum);
@@ -122,7 +110,7 @@ switch(title) {
             teamOutput.push(manager)
             console.log(teamOutput)
 
-            if(res.choice === "yes") {
+            if(res.AddNewEmployee === "yes") {
                 employerRole()
                 
             } else  {
@@ -155,7 +143,7 @@ switch(title) {
             const engineer = new Engineer(empName, empId, empEmail, res.github);
             teamMember = fs.readFileSync("templates/engineer.html");
             teamOutput.push(engineer)
-            if(res.choice === "yes") {
+            if(res.AddNewEmployee === "yes") {
                 employerRole()
                 
             } else  {
@@ -183,13 +171,13 @@ switch(title) {
                     "yes",
                     "no"
                     ]
-                }
-            ])
+                }])
+
             .then((res) => {
                 const intern = new Intern(empName, empId, empEmail, res.school);
                 teamMember = fs.readFileSync("templates/intern.html");
                 teamOutput.push(intern)
-                if(res.choice === "yes") {
+                if(res.AddNewEmployee === "yes") {
                     employerRole()
                     
                 } else  {
@@ -202,7 +190,6 @@ switch(title) {
             });
             break;
             
-
 }
 
 } 
