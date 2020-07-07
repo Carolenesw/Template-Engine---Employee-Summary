@@ -75,7 +75,6 @@ async function employerRole() {
       id = res.id;
       role = res.role;
       email = res.email;
-      console.log("responsose:", res);
     });
   console.log("Employee:", role);
   // create switch statement to gather employee's info based on title/role
@@ -108,7 +107,6 @@ async function employerRole() {
           const manager = new Manager(name, id, email, res.officeNumber);
           teamMember = fs.readFileSync("templates/manager.html");
           teamOutput.push(manager);
-          console.log("manager cont: ", manager);
           console.log("Successful, Team data:", teamOutput);
 
           if (res.AddNewEmployee === "yes") {
@@ -154,7 +152,6 @@ async function employerRole() {
         .catch((err) => {
           console.log(err);
         });
-
       break;
 
     case "Intern":
@@ -200,7 +197,7 @@ function renderArray() {
     if (err) {
       return console.log(err);
     }
-    console.log("You have successfully generated your Team's profile!");
+    console.log("You have successfully generated your Engineering Team's profile!");
   });
 }
 
@@ -208,7 +205,7 @@ function renderArray() {
 async function init() {
   await inquirer
     .prompt({
-      message: "Would you like to generate Employee Summary?",
+      message: "Would you like to generate Engineering Team?",
       name: "option",
       choices: ["yes", "no"],
     })
