@@ -16,226 +16,215 @@ const Choice = require("inquirer/lib/objects/choice");
 const Choices = require("inquirer/lib/objects/choices");
 const Employee = require("./lib/Employee");
 
-// email validation function 
+// email validation function
 const email = async (input) => {
-    var emailFormat = /\S+@\S+\.\S+/;
-    return emailFormat.test(input)||"Enter a valid @.com";
-}
+  var emailFormat = /\S+@\S+\.\S+/;
+  return emailFormat.test(input) || "Enter a valid @.com";
+};
 
 // create function to capture employer data
 async function employerRole() {
-let name;
-let id;
-let role;
-let email;
-// create prompts to capture general Employee's information
-   await inquirer
- .prompt([
-    {
+  let name;
+  let id;
+  let role;
+  let email;
+  // create prompts to capture general Employee's information
+  await inquirer
+    .prompt([
+      {
         message: "Enter the Employee's job title/role: ",
         name: "role",
         type: "list",
-        choices: [
-            "Manager",
-            "Engineer",
-            "Intern"
-        ]
-    },
-   {
-       name: "name", 
-       message: "Please enter Employee's name: ",
-       type: "input", 
-       // validate answer
-       validate: (input) => {
-           if (input === "") {
-               return "Employee's 'NAME' is required!"
-           }
-           return true;
-       }
-   },
-   {   
-       name: "id",
-       message: "Please enter Employee's id: ",
-       type: "input",
-       // validate answer
-       validate: (input) => {
-           if (input === "") {
-               return "Employee's 'ID' is required!"
-           }
-           return true;
-       }
-   },
-   {
-       name: "email",
-       message: "Please enter Employee's email: ",
-       type: "input", 
-       // validate answer
-       validate: email
-   }]) 
-   
-.then((res) => {
-    name = res.name;
-    id = res.id;
-    role = res.role;
-    email = res.email
-});
-console.log("Employee:", role)
-// create switch statement to gather employee's info based on title/role
-switch(role) {
+        choices: ["Manager", "Engineer", "Intern"],
+      },
+      {
+        name: "name",
+        message: "Please enter Employee's name: ",
+        type: "input",
+        // validate answer
+        validate: (input) => {
+          if (input === "") {
+            return "Employee's 'NAME' is required!";
+          }
+          return true;
+        },
+      },
+      {
+        name: "id",
+        message: "Please enter Employee's id: ",
+        type: "input",
+        // validate answer
+        validate: (input) => {
+          if (input === "") {
+            return "Employee's 'ID' is required!";
+          }
+          return true;
+        },
+      },
+      {
+        name: "email",
+        message: "Please enter Employee's email: ",
+        type: "input",
+        // validate answer
+        validate: email,
+      },
+    ])
+
+    .then((res) => {
+      name = res.name;
+      id = res.id;
+      role = res.role;
+      email = res.email;
+      console.log("responsose:", res);
+    });
+  console.log("Employee:", role);
+  // create switch statement to gather employee's info based on title/role
+  switch (role) {
     case "Manager":
-        await inquirer.prompt([{
+      await inquirer
+        .prompt([
+          {
             message: "Please enter your office number: ",
             name: "officeNumber",
             type: "input",
             //   validate answer
-            validate: answer => {
-                const isNumber = answer.match(/^[1-9]\d*$/);
-                    if (isNumber) {
-                       return true; 
-                    }
-                    return "Numbers are required!";
-        }
-        }, 
-        {
+            validate: (answer) => {
+              const isNumber = answer.match(/^[1-9]\d*$/);
+              if (isNumber) {
+                return true;
+              }
+              return "Numbers are required!";
+            },
+          },
+          {
             name: "AddNewEmployee",
             message: "Would you like to add another team member?",
             type: "list",
-            choices: [
-                "yes",
-                "no"
-            ]
-        }])
-    
-        .then((res) => {
-            const manager = new Manager(name, id, email, res.officeNumber);
-            teamMember = fs.readFileSync("templates/manager.html");
-            teamOutput.push(manager)
-            console.log("manager cont: ", manager)
-            // teamOutput = fs.readFileSync("templates/manager.html");
-            console.log("Successful, Team data:", teamOutput)
+            choices: ["yes", "no"],
+          },
+        ])
 
-            if(res.AddNewEmployee === "yes") {
-                employerRole()
-                
-            } else  {
-               console.log("No more profile to generate!");
-            }
+        .then((res) => {
+          const manager = new Manager(name, id, email, res.officeNumber);
+          teamMember = fs.readFileSync("templates/manager.html");
+          teamOutput.push(manager);
+          console.log("manager cont: ", manager);
+          console.log("Successful, Team data:", teamOutput);
+
+          if (res.AddNewEmployee === "yes") {
+            employerRole();
+          } else {
+            console.log("No more profile to generate!");
+            renderArray();// call render function
+          }
         })
         .catch((err) => {
-            console.log(err);
-     
+          console.log(err);
         });
-        break;
+      break;
 
-        case "Engineer":
-        await inquirer.prompt([{
+    case "Engineer":
+      await inquirer
+        .prompt([
+          {
             name: "github",
             message: "Please Enter Engineer's github username: ",
-            type: "input"
-             },
-             {
-                name: "AddNewEmployee",
-                message: "Would you like to add another team member?",
-                type: "list",
-                choices: [
-                    "yes",
-                    "no"
-                ]
-            }
+            type: "input",
+          },
+          {
+            name: "AddNewEmployee",
+            message: "Would you like to add another team member?",
+            type: "list",
+            choices: ["yes", "no"],
+          },
         ])
         .then((res) => {
-            const engineer = new Engineer(name, id, email, res.github);
-            teamMember = fs.readFileSync("templates/engineer.html");
-            teamOutput.push(engineer)
-            console.log("Successful, Team data:", teamOutput)
+          const engineer = new Engineer(name, id, email, res.github);
+          teamMember = fs.readFileSync("templates/engineer.html");
+          teamOutput.push(engineer);
+          console.log("Successful, Team data:", teamOutput);
 
-            if(res.AddNewEmployee === "yes") {
-                employerRole()
-                
-            } else  {
-               console.log("No more profile to generate!");
-            }
+          if (res.AddNewEmployee === "yes") {
+            employerRole();
+          } else {
+            console.log("No more profile to generate!");
+            renderArray(); //call render function
+          }
         })
         .catch((err) => {
-            console.log(err);
-     
+          console.log(err);
         });
-        
-        break;
 
-        case "Intern":
-            await inquirer.prompt([{
-                name: "school",
-                message: "Please Enter the your school name: ",
-                type: "input"
-                }, 
-                {
-                name: "AddNewEmployee",
-                message: "Would you like to add another team member?",
-                type: "list",
-                choices: [
-                    "yes",
-                    "no"
-                    ]
-                }])
+      break;
 
-            .then((res) => {
-                const intern = new Intern(name, id, email, res.school);
-                teamMember = fs.readFileSync("templates/intern.html");
-                teamOutput.push(intern)
-                console.log("Successful, Team data:", teamOutput)
+    case "Intern":
+      await inquirer
+        .prompt([
+          {
+            name: "school",
+            message: "Please Enter the your school name: ",
+            type: "input",
+          },
+          {
+            name: "AddNewEmployee",
+            message: "Would you like to add another team member?",
+            type: "list",
+            choices: ["yes", "no"],
+          },
+        ])
 
-                if(res.AddNewEmployee === "yes") {
-                    employerRole()
-                    
-                } else  {
-                   console.log("No more profile to generate!");
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-         
-            });
-            break;
+        .then((res) => {
+          const intern = new Intern(name, id, email, res.school);
+          teamMember = fs.readFileSync("templates/intern.html");
+          teamOutput.push(intern);
+          console.log("Successful, Team data:", teamOutput);
+
+          if (res.AddNewEmployee === "yes") {
+            employerRole();
+          } else {
+            console.log("No more profile to generate!");
+            renderArray(); //call the render
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      break;
+  }
 }
 
-} 
-
-// create team.html file in the output folder from employee data 
-teamOutput = fs.readFileSync("templates/main.html");
-fs.writeFile("output/team.html", teamOutput, function (err) {
-    if(err) {
-        return console.log(err);
+// create render array function to write to team.html from employee data
+function renderArray() {
+    console.log(teamOutput)
+  fs.writeFile("output/team.html", render(teamOutput), function (err) {
+    if (err) {
+      return console.log(err);
     }
-    console.log("You have successfully generated your Team's profile!")
-})
+    console.log("You have successfully generated your Team's profile!");
+  });
+}
 
 // create initialized function to start team profile generator
 async function init() {
-    
-        await inquirer.prompt({
-            message: "Would you like to generate Employee Summary?",
-            name: "option",
-            choices: [
-                "yes",
-                "no"
-            ],
-        })
-        .then(choice => {
-            console.log("answer:", choice)
-            // always change response to toLowerCase
-            const choices = (choice.option).toLowerCase()
-            if(choices === "yes") {
-                employerRole()
-                
-            } else {
-               console.log("Their is no Team's Profile to generate");
-            }
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-        
-    }
+  await inquirer
+    .prompt({
+      message: "Would you like to generate Employee Summary?",
+      name: "option",
+      choices: ["yes", "no"],
+    })
+    .then((choice) => {
+      console.log("answer:", choice);
+      // always change response to toLowerCase
+      const choices = choice.option.toLowerCase();
+      if (choices === "yes") {
+        employerRole();
+      } else {
+        console.log("Their is no Team's Profile to generate");
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
 
-init()
+init();
