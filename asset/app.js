@@ -15,7 +15,6 @@ const render = require("./lib/htmlRenderer");
 const Choice = require("inquirer/lib/objects/choice");
 const Choices = require("inquirer/lib/objects/choices");
 const Employee = require("./lib/Employee");
-// const { title } = require("process");
 
 // email validation function 
 const email = async (input) => {
@@ -202,11 +201,13 @@ async function init() {
             choices: [
                 "yes",
                 "no"
-            ]
+            ],
         })
         .then(choice => {
             console.log("answer:", choice)
-            if(choice.option === "yes") {
+            // always change response to toLowerCase
+            const choices = (choice.option).toLowerCase()
+            if(choices === "yes") {
                 employerRole()
                 
             } else {
