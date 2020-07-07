@@ -47,9 +47,14 @@ Email: carolenesw@gmail.com
 
 ## link
 
-<!-- https://carolenesw.github.io/Weather_Dashboard_R/ -->
+* video link: 
+https://drive.google.com/file/d/1jUJJcjkWLHgwm8__W8eCg4DR1TWlug2f/view?usp=sharing
+
+* repo link:
+https://github.com/Carolenesw/Template-Engine---Employee-Summary
 
 ## Images
+
 
 <img src="asset/image/team_profile.png">
 
