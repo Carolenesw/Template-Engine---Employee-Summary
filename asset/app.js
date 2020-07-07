@@ -24,13 +24,16 @@ const email = async (input) => {
 
 // create function to capture employer data
 async function employerRole() {
-
+let name;
+let id;
+let role;
+let email;
 // create prompts to capture general Employee's information
    await inquirer
  .prompt([
     {
         message: "Enter the Employee's job title/role: ",
-        name: "title",
+        name: "role",
         type: "list",
         choices: [
             "Manager",
@@ -71,18 +74,18 @@ async function employerRole() {
    }]) 
    
 .then((res) => {
-    empName = res.name;
-    empId = res.id;
-    title = res.title;
-    empEmail = res.email
+    name = res.name;
+    id = res.id;
+    role = res.role;
+    email = res.email
 });
-console.log("Employee:", title)
+console.log("Employee:", role)
 // create switch statement to gather employee's info based on title
-switch(title) {
+switch(role) {
     case "Manager":
         await inquirer.prompt([{
             message: "Please enter your office number: ",
-            name: "officeNum",
+            name: "officeNumber",
             type: "input",
             //   validate answer
             validate: answer => {
@@ -104,7 +107,7 @@ switch(title) {
         }])
     
         .then((res) => {
-            const manager = new Manager(empName, empId, empEmail, res.officeNum);
+            const manager = new Manager(name, id, email, res.officeNumber);
             teamMember = fs.readFileSync("templates/manager.html");
             teamOutput.push(manager)
             console.log(teamOutput)
@@ -139,7 +142,7 @@ switch(title) {
             }
         ])
         .then((res) => {
-            const engineer = new Engineer(empName, empId, empEmail, res.github);
+            const engineer = new Engineer(name, id, email, res.github);
             teamMember = fs.readFileSync("templates/engineer.html");
             teamOutput.push(engineer)
             if(res.AddNewEmployee === "yes") {
@@ -173,7 +176,7 @@ switch(title) {
                 }])
 
             .then((res) => {
-                const intern = new Intern(empName, empId, empEmail, res.school);
+                const intern = new Intern(name, id, email, res.school);
                 teamMember = fs.readFileSync("templates/intern.html");
                 teamOutput.push(intern)
                 if(res.AddNewEmployee === "yes") {
