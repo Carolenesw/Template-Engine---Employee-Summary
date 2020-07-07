@@ -15,7 +15,7 @@ const render = require("./lib/htmlRenderer");
 const Choice = require("inquirer/lib/objects/choice");
 const Choices = require("inquirer/lib/objects/choices");
 const Employee = require("./lib/Employee");
-const { title } = require("process");
+// const { title } = require("process");
 
 // email validation function 
 const email = async (input) => {
@@ -23,29 +23,10 @@ const email = async (input) => {
     return emailFormat.test(input)||"Enter a valid @.com";
 }
 
-// create function to capture employer role
+// create function to capture employer data
 async function employerRole() {
-//     inquirer.prompt([
-//         {
-//             message: "Enter the Employee's job title/role: ",
-//             name: "title",
-//             type: "list",
-//             choices: [
-//                 "Manager",
-//                 "Engineer",
-//                 "Intern"
-//             ]
-//         }]) 
-//         .catch((error) => {
 
-//         console.log(error);
-//     })
-// .then((info) => { 
-// const title= info.title
-// })
-
-// create function to capture general Employee's information
-// async function getEmployee(){
+// create prompts to capture general Employee's information
    await inquirer
  .prompt([
     {
@@ -98,15 +79,17 @@ async function employerRole() {
            "Intern",
            "I don't want to add any more team members"
        ]
-   }]) 
+   }
+]) 
    
 .then((res) => {
-    name = res.name;
-    id = res.id;
+    empName = res.name;
+    empId = res.id;
     title = res.title;
-    email = res.email
+    empEmail = res.email
 });
-// create switch statement to gather employee's info
+console.log(title)
+// create switch statement to gather employee's info based on title
 switch(title) {
     case "Manager":
         await inquirer.prompt([{
@@ -123,7 +106,7 @@ switch(title) {
         }
         }])
         .then((res) => {
-            const manager = new Manager(name, id, email, res.officeNum);
+            const manager = new Manager(empName, empId, empEmail, res.officeNum);
             teamMember = fs.readFileSync("templates/manager.html");
             teamOutput.push(manager)
         });
@@ -156,6 +139,7 @@ switch(title) {
                 teamOutput.push(intern)
             });
             break;
+            
     
         
 }
