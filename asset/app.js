@@ -121,7 +121,7 @@ switch(title) {
         ])
         .then((res) => {
             const engineer = new Engineer(name, id, email, res.github);
-            teamMember = fs.readFileSync("templates/manager.html");
+            teamMember = fs.readFileSync("templates/engineer.html");
             teamOutput.push(engineer)
         });
         break;
@@ -135,13 +135,12 @@ switch(title) {
             ])
             .then((res) => {
                 const intern = new Intern(name, id, email, res.school);
-                teamMember = fs.readFileSync("templates/manager.html");
+                teamMember = fs.readFileSync("templates/intern.html");
                 teamOutput.push(intern)
             });
             break;
             
-    
-        
+
 }
 
 } 
