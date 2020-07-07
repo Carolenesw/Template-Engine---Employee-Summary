@@ -35,68 +35,87 @@ function employerRole() {
                 "Intern"
             ]
         }]) 
-.catch((error) => {
+        .catch((error) => {
 
-  console.log(error);
-})
+        console.log(error);
+    })
 }
 // employerRole()
-// create prompt function to capture general employee's information
-// function teamPromptInfo(){
-//          inquirer
-//       .prompt([
-//         {
-//             name: "name", 
-//             message: "Please enter Employee's name: ",
-//             type: "input", 
-//             // validate answer
-//             validate: (input) => {
-//                 if (input === "") {
-//                     return "Employee's 'NAME' is required!"
-//                 }
-//                 return true;
-//             }
-//         },
-//         {   
-//             name: "id",
-//             message: "Please enter Employee's id: ",
-//             type: "input",
-//             // validate answer
-//             validate: (input) => {
-//                 if (input === "") {
-//                     return "Employee's 'ID' is required!"
-//                 }
-//                 return true;
-//             }
-//         },
-//         {
-//             name: "email",
-//             message: "Please enter Employee's email: ",
-//             type: "input", 
-//             // validate answer
-//             validate: email
-//         },
+// create prompt function to capture manager information
+// getManager()
+function getManager(){
+         inquirer
+      .prompt([
+        {
+            name: "name", 
+            message: "Please enter Employee's name: ",
+            type: "input", 
+            // validate answer
+            validate: (input) => {
+                if (input === "") {
+                    return "Employee's 'NAME' is required!"
+                }
+                return true;
+            }
+        },
+        {   
+            name: "id",
+            message: "Please enter Employee's id: ",
+            type: "input",
+            // validate answer
+            validate: (input) => {
+                if (input === "") {
+                    return "Employee's 'ID' is required!"
+                }
+                return true;
+            }
+        },
+        {
+            name: "email",
+            message: "Please enter Employee's email: ",
+            type: "input", 
+            // validate answer
+            validate: email
+        },
+          {
+              message: "Please enter your office number: ",
+              name: "officeNum",
+              type: "input",
+            //   validate answer
+              validate: answer => {
+                  const isNumber = answer.match(/^[1-9]\d*$/);
+                    if (isNumber) {
+                       return true; 
+                    }
+                    return "Numbers are required!";
+                }
+            },
+        // {}
+        //     message: "Please enter Intern's school: ",
+        //     name: "school"
+        // },
+        // {
+        //     name: "github",
+        //     message: "Please Enter Engineer's github username: ",
+        //     type: "input"
+        // },
+        {
+            name: "AddNewEmployee",
+            message: "Would you like to add another team member?",
+            type: "list",
+            choices: [
+                "Engineer",
+                "Intern",
+                "I don't want to add any more team members"
+            ]
+        }]) 
+        .catch((error) => {
 
-//         {
-//             message: "Please enter Intern's school: ",
-//             name: "school"
-//         },
-//         {
-//             name: "github",
-//             message: "Please Enter Engineer's github username: ",
-//             type: "input"
-//         },
-//         { 
-//             name: "AddNewEmployee",
-//             message: "Would you like to add another team member?",
-//             type: "list",
-//             choices: [
-//                 "Engineer",
-//                 "Intern",
-//                 "I don't want to add any more team members"
-//             ]
-//         }
-//       ])
+        console.log(error);
+    })
+}
+    //   ])
+    // }
 //       .then(answers => {
 //         //   create variable to hold response
 //         let name = answers.name;
