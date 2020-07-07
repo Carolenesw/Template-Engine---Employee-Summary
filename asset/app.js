@@ -152,7 +152,7 @@ switch(title) {
             }
         ])
         .then((res) => {
-            const engineer = new Engineer(name, id, email, res.github);
+            const engineer = new Engineer(empName, empId, empEmail, res.github);
             teamMember = fs.readFileSync("templates/engineer.html");
             teamOutput.push(engineer)
             if(res.choice === "yes") {
@@ -186,7 +186,7 @@ switch(title) {
                 }
             ])
             .then((res) => {
-                const intern = new Intern(name, id, email, res.school);
+                const intern = new Intern(empName, empId, empEmail, res.school);
                 teamMember = fs.readFileSync("templates/intern.html");
                 teamOutput.push(intern)
                 if(res.choice === "yes") {
