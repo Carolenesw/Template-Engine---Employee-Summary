@@ -15,6 +15,7 @@ const render = require("./lib/htmlRenderer");
 const Choice = require("inquirer/lib/objects/choice");
 const Choices = require("inquirer/lib/objects/choices");
 const Employee = require("./lib/Employee");
+const { title } = require("process");
 
 // email validation function 
 const email = async (input) => {
@@ -23,102 +24,40 @@ const email = async (input) => {
 }
 
 // create function to capture employer role
-function employerRole() {
-    inquirer.prompt([
-        {
-            message: "Enter the Employee's job title/role: ",
-            name: "title",
-            type: "list",
-            choices: [
-                "Manager",
-                "Engineer",
-                "Intern"
-            ]
-        }]) 
-        .catch((error) => {
+async function employerRole() {
+//     inquirer.prompt([
+//         {
+//             message: "Enter the Employee's job title/role: ",
+//             name: "title",
+//             type: "list",
+//             choices: [
+//                 "Manager",
+//                 "Engineer",
+//                 "Intern"
+//             ]
+//         }]) 
+//         .catch((error) => {
 
-        console.log(error);
-    })
-}
-// employerRole()
-// create prompt function to capture manager information
-// getManager()
-function getManager(){
-         inquirer
-      .prompt([
-        {
-            name: "name", 
-            message: "Please enter Employee's name: ",
-            type: "input", 
-            // validate answer
-            validate: (input) => {
-                if (input === "") {
-                    return "Employee's 'NAME' is required!"
-                }
-                return true;
-            }
-        },
-        {   
-            name: "id",
-            message: "Please enter Employee's id: ",
-            type: "input",
-            // validate answer
-            validate: (input) => {
-                if (input === "") {
-                    return "Employee's 'ID' is required!"
-                }
-                return true;
-            }
-        },
-        {
-            name: "email",
-            message: "Please enter Employee's email: ",
-            type: "input", 
-            // validate answer
-            validate: email
-        },
-          {
-              message: "Please enter your office number: ",
-              name: "officeNum",
-              type: "input",
-            //   validate answer
-              validate: answer => {
-                  const isNumber = answer.match(/^[1-9]\d*$/);
-                    if (isNumber) {
-                       return true; 
-                    }
-                    return "Numbers are required!";
-                }
-            },
-        // {}
-        //     message: "Please enter Intern's school: ",
-        //     name: "school"
-        // },
-        // {
-        //     name: "github",
-        //     message: "Please Enter Engineer's github username: ",
-        //     type: "input"
-        // },
-        {
-            name: "AddNewEmployee",
-            message: "Would you like to add another team member?",
-            type: "list",
-            choices: [
-                "Engineer",
-                "Intern",
-                "I don't want to add any more team members"
-            ]
-        }]) 
-        .catch((error) => {
+//         console.log(error);
+//     })
+// .then((info) => { 
+// const title= info.title
+// })
 
-        console.log(error);
-    })
-}
-
-// create function to capture engineer info
-function getEngineer(){
-    inquirer
+// create function to capture general Employee's information
+// async function getEmployee(){
+   await inquirer
  .prompt([
+    {
+        message: "Enter the Employee's job title/role: ",
+        name: "title",
+        type: "list",
+        choices: [
+            "Manager",
+            "Engineer",
+            "Intern"
+        ]
+    },
    {
        name: "name", 
        message: "Please enter Employee's name: ",
@@ -150,24 +89,6 @@ function getEngineer(){
        // validate answer
        validate: email
    },
-     {
-         message: "Please enter your office number: ",
-         name: "officeNum",
-         type: "input",
-       //   validate answer
-         validate: answer => {
-             const isNumber = answer.match(/^[1-9]\d*$/);
-               if (isNumber) {
-                  return true; 
-               }
-               return "Numbers are required!";
-           }
-       },
-   {
-       name: "github",
-       message: "Please Enter Engineer's github username: ",
-       type: "input"
-   },
    {
        name: "AddNewEmployee",
        message: "Would you like to add another team member?",
@@ -178,57 +99,68 @@ function getEngineer(){
            "I don't want to add any more team members"
        ]
    }]) 
-   .catch((error) => {
+   
+.then((res) => {
+    name = res.name;
+    id = res.id;
+    title = res.title;
+    email = res.email
+});
+// create switch statement to gather employee's info
+switch(title) {
+    case "Manager":
+        await inquirer.prompt([{
+            message: "Please enter your office number: ",
+            name: "officeNum",
+            type: "input",
+            //   validate answer
+            validate: answer => {
+                const isNumber = answer.match(/^[1-9]\d*$/);
+                    if (isNumber) {
+                       return true; 
+                    }
+                    return "Numbers are required!";
+        }
+        }])
+        .then((res) => {
+            const manager = new Manager(name, id, email, res.officeNum);
+            teamMember = fs.readFileSync("templates/manager.html");
+            teamOutput.push(manager)
+        });
+        break;
 
-   console.log(error);
-})
+        case "Engineer":
+        await inquirer.prompt([{
+            name: "github",
+            message: "Please Enter Engineer's github username: ",
+            type: "input"
+             }
+        ])
+        .then((res) => {
+            const engineer = new Engineer(name, id, email, res.github);
+            teamMember = fs.readFileSync("templates/manager.html");
+            teamOutput.push(engineer)
+        });
+        break;
+
+        case "Intern":
+            await inquirer.prompt([{
+                name: "school",
+                message: "Please Enter the your school name: ",
+                type: "input"
+                 }
+            ])
+            .then((res) => {
+                const intern = new Intern(name, id, email, res.school);
+                teamMember = fs.readFileSync("templates/manager.html");
+                teamOutput.push(intern)
+            });
+            break;
+    
+        
 }
 
-    //   ])
-    // }
-//       .then(answers => {
-//         //   create variable to hold response
-//         let name = answers.name;
-//         let id = answers.id;
-//         let title = answers.title;
-//         let email = answers.email
-
-//         if (answers) {
-//             console.log("Success!", answers);
-//         }
-// add switch statement to capture individual roles/position
-        // switch(title) {
-        //     // add manager info
-        //     case "Manager":
-        //          inquirer.prompt([
-        //             {
-        //                 message: "Please enter your office number: ",
-        //                 name: "officeNum",
-        //                 type: "input",
-        //                  // validate answer
-        //                  validate: answer => {
-        //                      const isNumber = answer.match(/^[1-9]\d*$/);
-        //                     if (isNumber) {
-        //                        return true; 
-        //                     }
-        //                     return "Numbers are required!";
-        //                 }
-        //         }])
-        //         .then(res => {
-        //         const manager = new Manager(name, id, email, res.officeNum);
-        //         const teamMember = fs.readFileSync("templates/manager.html");
-        //         const teamOutput =  await employeeSummary(teamMember, answers.AddNewEmployee);
-        //         // teamOutput.push(teamMember)
-        //         console.log(teamOutput)
-        //         })
-        // }
-//       })
-//       .catch((error) => {
-
-//         console.log(error);
-//     })
-// }
-
+} 
 // create initialized function to start team profile generator
 async function init() {
     
@@ -244,7 +176,7 @@ async function init() {
             console.log("answer:", choice)
             if(choice.option === "yes") {
                 employerRole()
-                // return;
+                
             } else {
                console.log("Their is no Team's Profile to generate");
             }
@@ -252,47 +184,7 @@ async function init() {
         .catch((err) => {
             console.log(err);
         })
+        
     }
 
 init()
-
-
-// function generateTeamSummary () {
-//     inquirer.prompt(teamPromptInfo)
-//     .then((answers) => {
-//         var title = answers.title;
-//     // var answers = await answers
-//     // var answers = await teamPromptInfo()
-// console.log("team's data:", title)
-// })
-// .catch((err) => {
-//     console.log(err);
-// });
-// }
-
-// generateTeamSummary()
-// switch(title) {
-//     // add manager info
-//     case "Manager":
-//          inquirer.prompt([
-//             {
-//                 message: "Please enter your office number: ",
-//                 name: "officeNum",
-//                 type: "input",
-//                  // validate answer
-//                  validate: answer => {
-//                      const isNumber = answer.match(/^[1-9]\d*$/);
-//                     if (isNumber) {
-//                        return true; 
-//                     }
-//                     return "Numbers are required!";
-//                 }
-//         }])
-//         .then(res => {
-//         const manager = new Manager(name, id, email, res.officeNum);
-//         const teamMember = fs.readFileSync("templates/manager.html");
-//         const teamOutput =  await employeeSummary(teamMember, answers.AddNewEmployee);
-//         // teamOutput.push(teamMember)
-//         console.log(teamOutput)
-//         })
-// }
